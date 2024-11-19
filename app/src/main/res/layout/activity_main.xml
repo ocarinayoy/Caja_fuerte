@@ -83,6 +83,7 @@
             android:textStyle="bold" />
     </FrameLayout>
 
+    <!-- FrameLayout para Clave -->
     <FrameLayout
         android:id="@+id/frame_clave"
         android:layout_width="match_parent"
@@ -90,15 +91,29 @@
         android:layout_weight="1"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/clave_message"
+        <LinearLayout
+            android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Ingresa la clave"
-            android:textColor="#243E4B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:gravity="left">
+
+            <EditText
+                android:id="@+id/input_clave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Ingresa la clave"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btn_enviar_clave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enviar Clave"
+                android:padding="8dp" />
+
+        </LinearLayout>
     </FrameLayout>
 
     <!-- FrameLayout para WiFi -->
@@ -120,6 +135,7 @@
             android:textStyle="bold" />
     </FrameLayout>
 
+    <!-- FrameLayout para Config -->
     <FrameLayout
         android:id="@+id/frame_config"
         android:layout_width="match_parent"

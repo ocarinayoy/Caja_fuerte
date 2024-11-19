@@ -4,23 +4,46 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var swipeListener: SwipeGestureListener
-    private var currentFrame = "content" // Rastrea la ventana actual
-    private var currentView: Int = R.id.principal // Vista inicial
+    private var currentFrame = "content" // Track de la ventana actual
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Referencias a los layouts
+        // Referencias a los layoutsL
         val contentFrame = findViewById<View>(R.id.principal)
         val frameClave = findViewById<View>(R.id.frame_clave)
         val frameWifi = findViewById<View>(R.id.frame_wifi)
         val frameConfig = findViewById<View>(R.id.frame_config)
+
+
+        // Referenciar el EditText y el Button del frame_clave
+        val inputClave = findViewById<EditText>(R.id.input_clave)
+        val btnEnviarClave = findViewById<Button>(R.id.btn_enviar_clave)
+
+        // Configurar el evento del botón
+        btnEnviarClave.setOnClickListener {
+            val claveIngresada = inputClave.text.toString()
+
+            if (claveIngresada.isEmpty()) {
+                // Mostrar mensaje de error si el campo está vacío
+                Toast.makeText(this, "Por favor ingresa una clave.", Toast.LENGTH_SHORT).show()
+            } else {
+                // Aquí puedes manejar el texto ingresado
+                Toast.makeText(this, "Clave ingresada: $claveIngresada", Toast.LENGTH_SHORT).show()
+
+                // Ejemplo: Limpiar el campo después de enviar
+                inputClave.text.clear()
+            }
+        }
 
         // Inicializar el detector de gestos
         swipeListener = SwipeGestureListener(this) { direction ->
@@ -48,20 +71,13 @@ class MainActivity : AppCompatActivity() {
 
     // Cambia el frame actual según los gestos o íconos
     private fun switchFrame(nextFrame: View, frameName: String, animation: Int) {
-        // Si la vista ya está activa, no hace nada
-        if (currentFrame == frameName) return
-
-        // Oculta las demás vistas
         findViewById<View>(R.id.principal).visibility = View.GONE
         findViewById<View>(R.id.frame_clave).visibility = View.GONE
         findViewById<View>(R.id.frame_wifi).visibility = View.GONE
         findViewById<View>(R.id.frame_config).visibility = View.GONE
 
-        // Muestra la siguiente vista
         nextFrame.visibility = View.VISIBLE
         nextFrame.startAnimation(AnimationUtils.loadAnimation(this, animation))
-
-        // Actualiza el estado actual
         currentFrame = frameName
     }
 
@@ -71,9 +87,6 @@ class MainActivity : AppCompatActivity() {
         frameName: String, animation: Int, iconId: Int
     ) {
         findViewById<View>(iconId).setOnClickListener {
-            // Si ya está visible, no hace nada
-            if (currentFrame == frameName) return@setOnClickListener
-
             contentFrame.visibility = View.GONE
             hideFrame1.visibility = View.GONE
             hideFrame2.visibility = View.GONE
