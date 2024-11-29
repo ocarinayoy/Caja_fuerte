@@ -5,6 +5,7 @@
         <domain includeSubdomains="true">127.0.0.1</domain>
         <domain includeSubdomains="true">192.168.0.56</domain> <!-- Asegúrate de añadir tu IP -->
         <domain includeSubdomains="true">192.168.100.59</domain> <!-- Asegúrate de añadir tu IP -->
-
+        <domain includeSubdomains="true">192.168.66.73</domain> <!-- Asegúrate de añadir tu IP -->
+        <domain includeSubdomains="true">192.168.4.1</domain> <!-- Asegúrate de añadir tu IP -->
     </domain-config>
 </network-security-config>

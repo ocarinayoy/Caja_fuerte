@@ -44,5 +44,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation(libs.androidx.junit.ktx)
 
 }

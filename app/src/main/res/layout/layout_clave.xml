@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="left"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/input_clave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:hint="Ingresa la clave"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textSize="25sp" />
+
+    <Switch
+        android:id="@+id/switchBloquear"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="270dp"
+        android:contentDescription="Switch para bloquear el acceso a la caja fuerte"
+        android:text="Bloquear caja"
+        android:textSize="20sp"
+        android:thumb="@drawable/switch_thumb"
+        android:trackTint="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/btn_enviar_clave"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="Enviar Clave"
+        android:textSize="20sp" />
+</LinearLayout>

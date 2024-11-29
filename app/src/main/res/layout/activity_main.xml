@@ -67,7 +67,7 @@
 
     <!-- Contenedor principal -->
     <FrameLayout
-        android:id="@+id/principal"
+        android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -78,77 +78,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Bienvenido a Tec Box"
-            android:textColor="#243E4B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
-    <!-- FrameLayout para Clave -->
-    <FrameLayout
-        android:id="@+id/frame_clave"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:gravity="left">
-
-            <EditText
-                android:id="@+id/input_clave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Ingresa la clave"
-                android:inputType="textPassword"
-                android:padding="8dp"
-                android:layout_marginBottom="16dp" />
-
-            <Button
-                android:id="@+id/btn_enviar_clave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Enviar Clave"
-                android:padding="8dp" />
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- FrameLayout para WiFi -->
-    <FrameLayout
-        android:id="@+id/frame_wifi"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/wifi_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="WiFi"
-            android:textColor="#243E4B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-    </FrameLayout>
-
-    <!-- FrameLayout para Config -->
-    <FrameLayout
-        android:id="@+id/frame_config"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/config_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Configuración"
             android:textColor="#243E4B"
             android:textSize="24sp"
             android:textStyle="bold" />
