@@ -41,12 +41,14 @@ class MainActivity : AppCompatActivity() {
         val inputClave = claveLayout.findViewById<EditText>(R.id.input_clave)
         val btnEnviarClave = claveLayout.findViewById<Button>(R.id.btn_enviar_clave)
         val switchBloquear = claveLayout.findViewById<Switch>(R.id.switchBloquear)
+        val btnCerrarCaja = claveLayout.findViewById<Button>(R.id.btn_cerrar_caja)
 
         val inputIp = configLayout.findViewById<EditText>(R.id.input_ip)
         val btnGuardarIp = configLayout.findViewById<Button>(R.id.btn_guardar_config)
 
         // Cargar la IP guardada
-        val savedIp = sharedPreferences.getString("ip_address", "192.168.100.59") // Valor por defecto
+        val savedIp =
+            sharedPreferences.getString("ip_address", "192.168.100.59") // Valor por defecto
         inputIp.setText(savedIp)
 
         // Guardar la IP al presionar el botón
@@ -58,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                 editor.apply()
                 Toast.makeText(this, "IP guardada: $nuevaIp", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Por favor, introduce una IP válida.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, introduce una IP válida.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -73,17 +76,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Configurar el evento del botón para enviar el estado
+        btnCerrarCaja.setOnClickListener {
+            val estadoPuerta = true // Estado que indica que la puerta se cierra
+
+            CerrarCajaESP32(estadoPuerta)
+        }
+
         switchBloquear.setOnCheckedChangeListener { _, isChecked ->
 
             if (isChecked) {
                 Toast.makeText(this, "Bloqueo de acceso activado", Toast.LENGTH_SHORT).show()
-                enviarEstadoBloqueoESP32(true)  // Enviar estado 'true' al ESP32 (activado)
             } else {
                 Toast.makeText(this, "Bloqueo de acceso desactivado", Toast.LENGTH_SHORT).show()
-                enviarEstadoBloqueoESP32(false)  // Enviar estado 'false' al ESP32 (desactivado)
             }
-        }
-
 
         // Inicializar el detector de gestos
         swipeListener = SwipeGestureListener(this) { direction ->
@@ -108,43 +114,6 @@ class MainActivity : AppCompatActivity() {
         switchFrame(claveLayout, "clave", R.anim.slide_in_left)
     }
 
-    private fun enviarEstadoBloqueoESP32(estado: Boolean) {
-        val ip = sharedPreferences.getString("ip_address", "192.168.0.56") // IP del ESP32
-        val url = "http://$ip/bloqueo_estado"  // Asegúrate de que esta URL coincida con la ruta en tu ESP32
-
-        // Crea el cuerpo de la solicitud con el valor booleano
-        val body = FormBody.Builder()
-            .add("estado_bloqueo", estado.toString())  // Convierte el booleano a String
-            .build()
-
-        val request = Request.Builder()
-            .url(url)
-            .post(body)
-            .build()
-
-        // Ejecuta la solicitud en un hilo separado
-        Thread {
-            try {
-                val response = client.newCall(request).execute()
-                if (response.isSuccessful) {
-                    runOnUiThread {
-                        Toast.makeText(applicationContext, "Estado de bloqueo enviado con éxito", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(applicationContext, "Error al enviar el estado de bloqueo", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                runOnUiThread {
-                    Toast.makeText(applicationContext, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("MiApp", "${e.message}")
-                }
-            }
-        }.start()
-    }
-
-
     private fun enviarClaveESP32(clave: String) {
         val ip = sharedPreferences.getString("ip_address", "192.168.0.56") // Valor por defecto
         val url = "http://$ip/recibir_clave"
@@ -163,11 +132,57 @@ class MainActivity : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
                     runOnUiThread {
-                        Toast.makeText(applicationContext, "Clave enviada con éxito", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Clave enviada con éxito",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(applicationContext, "Error al enviar clave", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            applicationContext,
+                            "Error al enviar clave",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(
+                        applicationContext,
+                        "Error en la conexión: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.d("MiApp", "${e.message}")
+                }
+            }
+        }.start()
+    }
+
+    private fun CerrarCajaESP32(estado: Boolean) {
+        val ip = sharedPreferences.getString("ip_address", "192.168.0.56") // Valor por defecto
+        val url = "http://$ip/recibir_estado"
+
+        val body = FormBody.Builder()
+            .add("estado", estado.toString()) // Convertimos el booleano a String
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .post(body)
+            .build()
+
+        Thread {
+            try {
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Estado enviado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Error al enviar estado", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
@@ -180,7 +195,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isValidIp(ip: String): Boolean {
-        val regex = Regex("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
+        val regex =
+            Regex("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
         return regex.matches(ip)
     }
 
