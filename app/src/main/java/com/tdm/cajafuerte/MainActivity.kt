@@ -90,6 +90,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Bloqueo de acceso desactivado", Toast.LENGTH_SHORT).show()
             }
+        }
+
 
         // Inicializar el detector de gestos
         swipeListener = SwipeGestureListener(this) { direction ->
