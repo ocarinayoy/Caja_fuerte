@@ -86,8 +86,10 @@ class MainActivity : AppCompatActivity() {
         switchBloquear.setOnCheckedChangeListener { _, isChecked ->
 
             if (isChecked) {
+                EstadoCajaESP32(true)
                 Toast.makeText(this, "Bloqueo de acceso activado", Toast.LENGTH_SHORT).show()
             } else {
+                EstadoCajaESP32(false)
                 Toast.makeText(this, "Bloqueo de acceso desactivado", Toast.LENGTH_SHORT).show()
             }
         }
@@ -164,10 +166,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun CerrarCajaESP32(estado: Boolean) {
         val ip = sharedPreferences.getString("ip_address", "192.168.0.56") // Valor por defecto
-        val url = "http://$ip/recibir_estado"
+        val url = "http://$ip/recibir_estadoPuerta"
 
         val body = FormBody.Builder()
-            .add("estado", estado.toString()) // Convertimos el booleano a String
+            .add("CerrarCaja", estado.toString()) // Convertimos el booleano a String
             .build()
 
         val request = Request.Builder()
@@ -195,6 +197,41 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
     }
+
+    private fun EstadoCajaESP32(estado: Boolean) {
+        val ip = sharedPreferences.getString("ip_address", "192.168.0.56") // Valor por defecto
+        val url = "http://$ip/recibir_estadoCaja"
+
+        val body = FormBody.Builder()
+            .add("estadoCaja", estado.toString()) // Convertimos el booleano a String
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .post(body)
+            .build()
+
+        Thread {
+            try {
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Estado enviado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Error al enviar estado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(applicationContext, "Error en la conexión: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.d("MiApp", "${e.message}")
+                }
+            }
+        }.start()
+    }
+
 
     private fun isValidIp(ip: String): Boolean {
         val regex =

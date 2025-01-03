@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="left"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingBottom="100dp"
+    android:paddingHorizontal="15dp">
 
     <EditText
         android:id="@+id/input_clave"
@@ -24,39 +24,48 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="200dp"
         android:contentDescription="Switch para bloquear el acceso a la caja fuerte"
         android:text="Bloquear caja"
         android:textSize="20sp"
         android:thumb="@drawable/switch_thumb"
         android:trackTint="@android:color/darker_gray" />
 
-<!--    Solo a modo debugger para ver el estado de la puerta-->
-    <TextView
-        android:id="@+id/estado_puerta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Estado de la puerta: Cargando..." />
+    <LinearLayout
+        android:id="@+id/LinearBtn"
+        android:layout_width="match_parent"
+        android:layout_height="203dp"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_cerrar_caja"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        android:text="Cerrar Caja"
-        android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btn_enviar_clave"
-        android:layout_width="wrap_content"
-        android:layout_height="65dp"
-        android:layout_gravity="center"
-        android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        android:text="Enviar Clave"
-        android:textSize="20sp" />
+        <!--    Solo a modo debugger para ver el estado de la puerta-->
+        <TextView
+            android:id="@+id/estado_puerta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:text="Estado de la puerta: Cargando..."
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_cerrar_caja"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="Cerrar Caja"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_enviar_clave"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:text="Enviar Clave"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
 </LinearLayout>
